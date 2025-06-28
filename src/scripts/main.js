@@ -12,6 +12,8 @@ button.addEventListener('click', () => {
     button.classList.remove('start');
     button.classList.add('restart');
     button.innerHTML = 'Restart';
+    document.querySelector('.message-win').classList.add('hidden');
+    document.querySelector('.message-lose').classList.add('hidden');
     document.querySelector('.message-start').classList.add('hidden');
     document.querySelector('.message-restart').classList.remove('hidden');
     game.start();
@@ -30,22 +32,11 @@ button.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown') {
-    game.moveDown();
-    game.generateTwoRandomCells(document.querySelectorAll('.field-cell'));
-    updateUI(); // оновлює DOM (що видно)
-  } else if (e.key === 'ArrowUp') {
-    game.moveUp();
-    game.generateTwoRandomCells(document.querySelectorAll('.field-cell'));
-    updateUI(); // оновлює DOM (що видно)
-  } else if (e.key === 'ArrowLeft') {
-    game.moveLeft();
-    game.generateTwoRandomCells(document.querySelectorAll('.field-cell'));
-    updateUI(); // оновлює DOM (що видно)
-  } else if (e.key === 'ArrowRight') {
-    game.moveRight();
-    game.generateTwoRandomCells(document.querySelectorAll('.field-cell'));
-    updateUI(); // оновлює DOM (що видно)
+  const directions = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+
+  if (directions.includes(e.key) && game.getStatus() === 'playing') {
+    game.handleMove(e.key);
+    updateUI();
   }
 });
 
@@ -80,6 +71,7 @@ function updateUI() {
     document.querySelector('.message-restart').classList.add('hidden');
     document.querySelector('.message-lose').classList.remove('hidden');
   }
+
   // gameOverMessage.classList.remove("hidden");
 }
 // });

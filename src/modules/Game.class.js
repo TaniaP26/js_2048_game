@@ -293,6 +293,41 @@ class Game {
 
     return true; // Немає ходів — гра закінчена
   }
+
+  handleMove(direction) {
+    const oldBoard = this.board.map((row) => [...row]); // Глибока копія
+
+    switch (direction) {
+      case 'ArrowLeft':
+        this.moveLeft();
+        break;
+      case 'ArrowRight':
+        this.moveRight();
+        break;
+      case 'ArrowUp':
+        this.moveUp();
+        break;
+      case 'ArrowDown':
+        this.moveDown();
+        break;
+    }
+
+    if (!this.boardsAreEqual(oldBoard, this.board)) {
+      this.generateTwoRandomCells(document.querySelectorAll('.field-cell'));
+    }
+  }
+
+  boardsAreEqual(board1, board2) {
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 4; col++) {
+        if (board1[row][col] !== board2[row][col]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 }
 
 module.exports = Game;
